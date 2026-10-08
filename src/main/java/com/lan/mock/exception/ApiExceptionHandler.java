@@ -1,5 +1,6 @@
 package com.lan.mock.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,12 @@ public class ApiExceptionHandler {
         String param = error == null ? null : error.getField();
         String message = error == null ? "Invalid request" : param + ": " + error.getDefaultMessage();
         return badRequest(message, param);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, Object>> invalidSettings(ConstraintViolationException exception) {
+        var violation = exception.getConstraintViolations().iterator().next();
+        return badRequest(violation.getMessage(), violation.getPropertyPath().toString());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

@@ -8,6 +8,8 @@ spring:
     web-application-type: servlet
   task:
     execution:
+      # 定时器也实现 Executor；强制保留独立的应用发送执行器。
+      mode: force
       pool:
         core-size: 4
         max-size: 16
@@ -15,6 +17,5 @@ spring:
       thread-name-prefix: mock-stream-
 
 mock:
-  reply: "Hello! This is a mock response."
-  chunk-size: 8
-  stream-timeout-ms: 30000
+  # 请求总生命周期上限；应大于 ai-gateway 的上游超时。
+  stream-timeout-ms: 300000

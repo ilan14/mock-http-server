@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 
 @RestController
 public class ChatController {
@@ -18,11 +19,7 @@ public class ChatController {
     }
 
     @PostMapping(value = "/v1/chat/completions", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> complete(@Valid @RequestBody ChatRequest request) {
-        if (request.stream()) {
-            return ResponseEntity.ok().contentType(MediaType.TEXT_EVENT_STREAM)
-                    .header("Cache-Control", "no-cache").body(service.stream(request));
-        }
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(service.complete(request));
+    public DeferredResult<ResponseEntity<?>> complete(@Valid @RequestBody ChatRequest request) {
+        return service.respond(request);
     }
 }
