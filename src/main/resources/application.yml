@@ -19,3 +19,13 @@ spring:
 mock:
   # 请求总生命周期上限；应大于 ai-gateway 的上游超时。
   stream-timeout-ms: 300000
+
+# 与业务接口共用 server.port，不设置 management.server.port。
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
