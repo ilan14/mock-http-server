@@ -1,0 +1,20 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: mock-http-server
+  main:
+    web-application-type: servlet
+  task:
+    execution:
+      pool:
+        core-size: 4
+        max-size: 16
+        queue-capacity: 100
+      thread-name-prefix: mock-stream-
+
+mock:
+  reply: "Hello! This is a mock response."
+  chunk-size: 8
+  stream-timeout-ms: 30000
