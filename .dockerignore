@@ -1,0 +1,7 @@
+# 仅发送构建必需的文件，避免本地配置和凭据进入构建上下文。
+**
+!pom.xml
+!src/
+!src/**
+!Dockerfile
+!.dockerignore

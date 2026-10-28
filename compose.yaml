@@ -1,0 +1,16 @@
+services:
+  mock-http-server:
+    build:
+      context: .
+    ports:
+      - "${HTTP_PORT:-8081}:8081"
+    environment:
+      SERVER_PORT: "8081"
+      JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:--Dfile.encoding=UTF-8 -Xms256m -Xmx512m}"
+    restart: unless-stopped
+    init: true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
